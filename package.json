@@ -12,7 +12,7 @@
     "select",
     "react component"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "bugs": "https://github.com/javadbat/jb-select-react/issues",
   "license": "MIT",
   "files": [
