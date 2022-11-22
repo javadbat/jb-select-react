@@ -1,2 +1,2 @@
-import JBSelect from './dist/JBSelect.js';
+import {JBSelect} from './dist/JBSelect.js';
 export {JBSelect};
