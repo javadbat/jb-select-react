@@ -9,8 +9,9 @@ run `npm install jb-select-react` to install package with npm
 ## usage
 
 use below syntax in your render function.
-
+```jsx
 <JBSelect></JBSelect>
+```
 
 ### label
 use label property to describe your select component.
