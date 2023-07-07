@@ -3,9 +3,28 @@ import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import 'jb-select';
 import PropTypes from 'prop-types';
 import { useEvent } from '../../custom-hooks/UseEvent';
+// eslint-disable-next-line no-duplicate-imports
+import { JBSelectWebComponent } from 'jb-select';
 
-export const JBSelect = React.forwardRef((props, ref) => {
-    let element = useRef();
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace JSX {
+      interface IntrinsicElements {
+        'jb-select': JBSelectType;
+      }
+      interface JBSelectType extends React.DetailedHTMLProps<React.HTMLAttributes<JBSelectWebComponent>, JBSelectWebComponent> {
+        class?:string,
+        label?: string,
+        name?:string,
+        required?:string | boolean,
+        message?:string,
+        // ref:React.RefObject<JBDateInputWebComponent>,
+      }
+    }
+}
+
+export const JBSelect = React.forwardRef((props:JBSelectProps, ref) => {
+    const element = useRef<JBSelectWebComponent>(null);
     const [refChangeCount, refChangeCountSetter] = useState(0);
     useImperativeHandle(
         ref,
@@ -16,52 +35,56 @@ export const JBSelect = React.forwardRef((props, ref) => {
         refChangeCountSetter(refChangeCount + 1);
     }, [element.current]);
     useEffect(() => {
-        element.current.value = props.value;
+        if(element.current){
+            element.current.value = props.value;
+        }
     }, [props.value]);
     useEffect(() => {
-        if (typeof props.getOptionTitle == "function") {
+        if (typeof props.getOptionTitle == "function" && element.current) {
             element.current.callbacks.getOptionTitle = props.getOptionTitle;
         }
     }, [props.getOptionTitle]);
     useEffect(() => {
-        if (typeof props.getOptionTitle == "function") {
+        if (typeof props.getOptionTitle == "function" && element.current) {
             element.current.callbacks.getOptionTitle = props.getOptionTitle;
         }
     }, [props.getOptionTitle]);
     useEffect(() => {
-        if (typeof props.getOptionDOM == "function") {
+        if (typeof props.getOptionDOM == "function" && element.current) {
             element.current.callbacks.getOptionDOM = props.getOptionDOM;
         }
     }, [props.getOptionDOM]);
     useEffect(() => {
-        if (typeof props.getSelectedValueDOM == "function") {
+        if (typeof props.getSelectedValueDOM == "function" && element.current && element.current) {
             element.current.callbacks.getSelectedValueDOM = props.getSelectedValueDOM;
         }
     }, [props.getSelectedValueDOM]);
     useEffect(() => {
-        element.current.optionList = props.optionList;
+        if(element.current){
+            element.current.optionList = props.optionList || [];
+        }
     }, [props.optionList]);
     useEffect(() => {
-        if (props.message !== null && props.message !== undefined) {
-            element.current.setAttribute("message", props.message);
+        if (props.message !== null && props.message !== undefined ) {
+            element.current?.setAttribute("message", props.message);
         }
     }, [props.message]);
     useEffect(() => {
         if (props.placeholder !== null && props.placeholder !== undefined) {
-            element.current.setAttribute("placeholder", props.placeholder);
+            element.current?.setAttribute("placeholder", props.placeholder);
         }
     }, [props.placeholder]);
     useEffect(() => {
         if (props.searchPlaceholder !== null && props.searchPlaceholder !== undefined) {
-            element.current.setAttribute("search-placeholder", props.searchPlaceholder);
+            element.current?.setAttribute("search-placeholder", props.searchPlaceholder);
         }
     }, [props.searchPlaceholder]);
-    function onKeyup(e) {
+    function onKeyup(e:KeyboardEvent) {
         if (props.onKeyup) {
             props.onKeyup(e);
         }
     }
-    function onChange(e) {
+    function onChange(e:Event) {
         if (props.onChange) {
             props.onChange(e);
         }
@@ -75,7 +98,23 @@ export const JBSelect = React.forwardRef((props, ref) => {
     );
 });
 
-
+export type JBSelectProps = {
+    label?: string,
+    optionList?: any[],
+    getOptionTitle?: (option:any)=>string,
+    getOptionValue?: (option:any)=>string,
+    getOptionDOM?: (option:any,onSelectCallback: (e: MouseEvent) => void, isSelected: boolean)=>HTMLElement,
+    getSelectedValueDOM?: (option:any)=>HTMLElement,
+    value?: any,
+    onChange?: (e:Event)=>void,
+    onKeyup?: (e:KeyboardEvent)=>void,
+    required?: boolean,
+    message?: string,
+    placeholder?: string,
+    searchPlaceholder?: string,
+    className?: string,
+    children?:any,
+}
 JBSelect.propTypes = {
     label: PropTypes.string,
     optionList: PropTypes.array,
