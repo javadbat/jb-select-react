@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import { useEvent } from '../../custom-hooks/UseEvent';
 // eslint-disable-next-line no-duplicate-imports
 import { JBSelectWebComponent } from 'jb-select';
-
+export type JBSelectEventType<T> = T & {
+    target: JBSelectWebComponent
+}
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace JSX {
@@ -79,12 +81,12 @@ export const JBSelect = React.forwardRef((props:JBSelectProps, ref) => {
             element.current?.setAttribute("search-placeholder", props.searchPlaceholder);
         }
     }, [props.searchPlaceholder]);
-    function onKeyup(e:KeyboardEvent) {
+    function onKeyup(e:JBSelectEventType<KeyboardEvent>) {
         if (props.onKeyup) {
             props.onKeyup(e);
         }
     }
-    function onChange(e:Event) {
+    function onChange(e:JBSelectEventType<Event>) {
         if (props.onChange) {
             props.onChange(e);
         }
@@ -106,8 +108,8 @@ export type JBSelectProps = {
     getOptionDOM?: (option:any,onSelectCallback: (e: MouseEvent) => void, isSelected: boolean)=>HTMLElement,
     getSelectedValueDOM?: (option:any)=>HTMLElement,
     value?: any,
-    onChange?: (e:Event)=>void,
-    onKeyup?: (e:KeyboardEvent)=>void,
+    onChange?: (e:JBSelectEventType<Event>)=>void,
+    onKeyup?: (e:JBSelectEventType<KeyboardEvent>)=>void,
     required?: boolean,
     message?: string,
     placeholder?: string,
