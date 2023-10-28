@@ -115,7 +115,7 @@ export type JBSelectProps = {
     placeholder?: string,
     searchPlaceholder?: string,
     className?: string,
-    children?:any,
+    children?:React.ReactNode,
 }
 JBSelect.propTypes = {
     label: PropTypes.string,

@@ -35,9 +35,24 @@ render(){
         return option.userId;
     }
     return(
-        <JBInput label='your label name' optionList={obj} getOptionTitle={getOptionTitle} getOptionValue={getOptionValue}></JBSelect>;
+        <JBSelect label='your label name' optionList={obj} getOptionTitle={getOptionTitle} getOptionValue={getOptionValue}></JBSelect>;
     );
 }
+```
+
+### Add Icon or Any Element into box
+
+sometimes you want to add icon into the select box before value box.
+you can customize this entire section by adding a div or any other Tag with the `slot="start-section"`
+
+like the example the below:
+
+```jsx
+<JBSelect>
+    <div slot="start-section">
+        <img class="your-custom-icon" src="./path/to/file.svg">
+    </div>
+</JBSelect>
 ```
 
 ### set custom style
