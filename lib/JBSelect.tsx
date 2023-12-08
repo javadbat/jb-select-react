@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import 'jb-select';
-import PropTypes from 'prop-types';
 import { useEvent } from '../../custom-hooks/UseEvent';
 // eslint-disable-next-line no-duplicate-imports
 import { JBSelectWebComponent } from 'jb-select';
@@ -82,17 +81,23 @@ export const JBSelect = React.forwardRef((props:JBSelectProps, ref) => {
         }
     }, [props.searchPlaceholder]);
     function onKeyup(e:JBSelectEventType<KeyboardEvent>) {
-        if (props.onKeyup) {
+        if ( typeof props.onKeyup == "function") {
             props.onKeyup(e);
         }
     }
     function onChange(e:JBSelectEventType<Event>) {
-        if (props.onChange) {
+        if (typeof props.onChange =="function") {
             props.onChange(e);
+        }
+    }
+    function onInput(e:JBSelectEventType<InputEvent>) {
+        if (typeof props.onInput == "function") {
+            props.onInput(e);
         }
     }
     useEvent(element.current, 'keyup', onKeyup);
     useEvent(element.current, 'change', onChange);
+    useEvent(element.current, 'input', onInput);
     return (
         <jb-select class={props.className?props.className:""} label={props.label} ref={element} required={props.required || false}>
             {props.children}
@@ -110,6 +115,7 @@ export type JBSelectProps = {
     value?: any,
     onChange?: (e:JBSelectEventType<Event>)=>void,
     onKeyup?: (e:JBSelectEventType<KeyboardEvent>)=>void,
+    onInput?: (e:JBSelectEventType<InputEvent>)=>void,
     required?: boolean,
     message?: string,
     placeholder?: string,
@@ -117,20 +123,4 @@ export type JBSelectProps = {
     className?: string,
     children?:React.ReactNode,
 }
-JBSelect.propTypes = {
-    label: PropTypes.string,
-    optionList: PropTypes.array,
-    getOptionTitle: PropTypes.func,
-    getOptionValue: PropTypes.func,
-    getOptionDOM: PropTypes.func,
-    getSelectedValueDOM: PropTypes.func,
-    value: PropTypes.any,
-    onChange: PropTypes.func,
-    onKeyup: PropTypes.func,
-    required: PropTypes.bool,
-    message: PropTypes.string,
-    placeholder: PropTypes.string,
-    searchPlaceholder: PropTypes.string,
-    className: PropTypes.string,
-};
 JBSelect.displayName = 'JBSelect';
