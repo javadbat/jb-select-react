@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState, useImperativeHandle,CSSProperties } from 'react';
 import 'jb-select';
 import { useEvent } from '../../custom-hooks/UseEvent';
 // eslint-disable-next-line no-duplicate-imports
@@ -99,13 +99,14 @@ export const JBSelect = React.forwardRef((props:JBSelectProps, ref) => {
     useEvent(element.current, 'change', onChange);
     useEvent(element.current, 'input', onInput);
     return (
-        <jb-select class={props.className?props.className:""} label={props.label} ref={element} required={props.required || false}>
+        <jb-select style={props.style?props.style:undefined} class={props.className?props.className:""} label={props.label} ref={element} required={props.required || false}>
             {props.children}
         </jb-select>
     );
 });
 
 export type JBSelectProps = {
+    style?:CSSProperties,
     label?: string,
     optionList?: any[],
     getOptionTitle?: (option:any)=>string,
