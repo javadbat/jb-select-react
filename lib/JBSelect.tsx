@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useRef, useState, useImperativeHandle,CSSProperties } from 'react';
 import 'jb-select';
-import { useEvent } from '../../custom-hooks/UseEvent';
+import { useEvent } from '../../../common/hooks/use-event';
 // eslint-disable-next-line no-duplicate-imports
 import { JBSelectWebComponent } from 'jb-select';
 export type JBSelectEventType<T> = T & {
