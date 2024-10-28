@@ -19,90 +19,91 @@ declare global {
         name?:string,
         required?:string | boolean,
         message?:string,
+        tabindex?:string,
         // ref:React.RefObject<JBDateInputWebComponent>,
       }
     }
 }
 
 export const JBSelect = React.forwardRef((props:JBSelectProps, ref) => {
-    const element = useRef<JBSelectWebComponent>(null);
-    const [refChangeCount, refChangeCountSetter] = useState(0);
-    useImperativeHandle(
-        ref,
-        () => (element ? element.current : {}),
-        [element],
-    );
-    useEffect(() => {
-        refChangeCountSetter(refChangeCount + 1);
-    }, [element.current]);
-    useEffect(() => {
-        if(element.current){
-            element.current.value = props.value;
-        }
-    }, [props.value]);
-    useEffect(() => {
-        if (typeof props.getOptionTitle == "function" && element.current) {
-            element.current.callbacks.getOptionTitle = props.getOptionTitle;
-        }
-    }, [props.getOptionTitle]);
-    useEffect(() => {
-        if (typeof props.getOptionTitle == "function" && element.current) {
-            element.current.callbacks.getOptionTitle = props.getOptionTitle;
-        }
-    }, [props.getOptionTitle]);
-    useEffect(() => {
-        if (typeof props.getOptionDOM == "function" && element.current) {
-            element.current.callbacks.getOptionDOM = props.getOptionDOM;
-        }
-    }, [props.getOptionDOM]);
-    useEffect(() => {
-        if (typeof props.getSelectedValueDOM == "function" && element.current && element.current) {
-            element.current.callbacks.getSelectedValueDOM = props.getSelectedValueDOM;
-        }
-    }, [props.getSelectedValueDOM]);
-    useEffect(() => {
-        if(element.current){
-            element.current.optionList = props.optionList || [];
-        }
-    }, [props.optionList]);
-    useEffect(() => {
-        if (props.message !== null && props.message !== undefined ) {
-            element.current?.setAttribute("message", props.message);
-        }
-    }, [props.message]);
-    useEffect(() => {
-        if (props.placeholder !== null && props.placeholder !== undefined) {
-            element.current?.setAttribute("placeholder", props.placeholder);
-        }
-    }, [props.placeholder]);
-    useEffect(() => {
-        if (props.searchPlaceholder !== null && props.searchPlaceholder !== undefined) {
-            element.current?.setAttribute("search-placeholder", props.searchPlaceholder);
-        }
-    }, [props.searchPlaceholder]);
-    function onKeyup(e:JBSelectEventType<KeyboardEvent>) {
-        if ( typeof props.onKeyup == "function") {
-            props.onKeyup(e);
-        }
+  const element = useRef<JBSelectWebComponent>(null);
+  const [refChangeCount, refChangeCountSetter] = useState(0);
+  useImperativeHandle(
+    ref,
+    () => (element ? element.current : {}),
+    [element],
+  );
+  useEffect(() => {
+    refChangeCountSetter(refChangeCount + 1);
+  }, [element.current]);
+  useEffect(() => {
+    if(element.current){
+      element.current.value = props.value;
     }
-    function onChange(e:JBSelectEventType<Event>) {
-        if (typeof props.onChange =="function") {
-            props.onChange(e);
-        }
+  }, [props.value]);
+  useEffect(() => {
+    if (typeof props.getOptionTitle == "function" && element.current) {
+      element.current.callbacks.getOptionTitle = props.getOptionTitle;
     }
-    function onInput(e:JBSelectEventType<InputEvent>) {
-        if (typeof props.onInput == "function") {
-            props.onInput(e);
-        }
+  }, [props.getOptionTitle]);
+  useEffect(() => {
+    if (typeof props.getOptionTitle == "function" && element.current) {
+      element.current.callbacks.getOptionTitle = props.getOptionTitle;
     }
-    useEvent(element.current, 'keyup', onKeyup);
-    useEvent(element.current, 'change', onChange);
-    useEvent(element.current, 'input', onInput);
-    return (
-        <jb-select style={props.style?props.style:undefined} class={props.className?props.className:""} label={props.label} ref={element} required={props.required || false}>
-            {props.children}
-        </jb-select>
-    );
+  }, [props.getOptionTitle]);
+  useEffect(() => {
+    if (typeof props.getOptionDOM == "function" && element.current) {
+      element.current.callbacks.getOptionDOM = props.getOptionDOM;
+    }
+  }, [props.getOptionDOM]);
+  useEffect(() => {
+    if (typeof props.getSelectedValueDOM == "function" && element.current && element.current) {
+      element.current.callbacks.getSelectedValueDOM = props.getSelectedValueDOM;
+    }
+  }, [props.getSelectedValueDOM]);
+  useEffect(() => {
+    if(element.current){
+      element.current.optionList = props.optionList || [];
+    }
+  }, [props.optionList]);
+  useEffect(() => {
+    if (props.message !== null && props.message !== undefined ) {
+      element.current?.setAttribute("message", props.message);
+    }
+  }, [props.message]);
+  useEffect(() => {
+    if (props.placeholder !== null && props.placeholder !== undefined) {
+      element.current?.setAttribute("placeholder", props.placeholder);
+    }
+  }, [props.placeholder]);
+  useEffect(() => {
+    if (props.searchPlaceholder !== null && props.searchPlaceholder !== undefined) {
+      element.current?.setAttribute("search-placeholder", props.searchPlaceholder);
+    }
+  }, [props.searchPlaceholder]);
+  function onKeyup(e:JBSelectEventType<KeyboardEvent>) {
+    if ( typeof props.onKeyup == "function") {
+      props.onKeyup(e);
+    }
+  }
+  function onChange(e:JBSelectEventType<Event>) {
+    if (typeof props.onChange =="function") {
+      props.onChange(e);
+    }
+  }
+  function onInput(e:JBSelectEventType<InputEvent>) {
+    if (typeof props.onInput == "function") {
+      props.onInput(e);
+    }
+  }
+  useEvent(element.current, 'keyup', onKeyup);
+  useEvent(element.current, 'change', onChange);
+  useEvent(element.current, 'input', onInput);
+  return (
+    <jb-select style={props.style?props.style:undefined} class={props.className?props.className:""} label={props.label} ref={element} required={props.required || 'false'} name={props.name??undefined}>
+      {props.children}
+    </jb-select>
+  );
 });
 
 export type JBSelectProps = {
@@ -123,5 +124,6 @@ export type JBSelectProps = {
     searchPlaceholder?: string,
     className?: string,
     children?:React.ReactNode,
+    name?:string
 }
 JBSelect.displayName = 'JBSelect';
