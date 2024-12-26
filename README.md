@@ -1,5 +1,8 @@
 # jb-select-react
 
+> [!WARNING]  
+> this package is deprecated and moved to [jb-select/react](https://github.com/javadbat/jb-select/tree/main/react)
+
 select component for react 
 
 ## installation
